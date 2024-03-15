@@ -111,15 +111,15 @@
             </div>
             <button class="btn" type="button" id="search-button">Search</button>
           </form>
-          <ul class="city-list"></ul>
+          <ul class="city-list" id="city-list"></ul>
         </aside>
         <div id="output" class="col-xxl-10 col-md-9 col-sm-12 pd-5">
         <section class="row current-weather">
-          <h3>City Name and Date</h3>
+          <span id="name-and-date"></span>
           <ul id="current">
-            <li>Temp: <span id="current-temp"></span></li>
-            <li>Wind: <span id="current-wind"></span></li>
-            <li>Humidity: <span id="current-humidity"></span></li>
+            <li>Temp:  <span id="current-temp"></span>&deg;F</li>
+            <li>Wind:  <span id="current-wind"></span>m/s</li>
+            <li>Humidity:  <span id="current-humidity"></span>&#37;</li>
           </ul>
         </section>
         <section class="row forecast">
