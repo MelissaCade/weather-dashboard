@@ -40,18 +40,22 @@
     <main class="container">
       <div class="row">
         <aside class="col-xxl-2 col-md-3 col-sm-12 p-5">
-          <h2>Search for a City:</h2>
           <form>
             <div>
+              <div class="form-group">
+                <label for="cityNameInput"><h2>City Name:</h2></label>
               <input
                 type="text"
                 class="form-control"
+                id="cityNameInput"
                 placeholder="city name"
                 aria-label="city name"
+                name="city"
               />
+              </div>
             <div class="ui-widget">
-              <h2>Choose a State:</h2>
-              <select id="combobox">
+              <label for="combobox"><h2>State:</h2></label>
+              <select id="combobox" name="states">
                 <option value>Select state...</option>
                 <option value="AL">Alabama</option>
                 <option value="AK">Alaska</option>
@@ -104,8 +108,8 @@
                 <option value="WI">Wisconsin</option>
                 <option value="WY">Wyoming</option>
               </select>
-              <button class="btn" type="button">Search</button>
             </div>
+            <button class="btn" type="button" id="search-button">Search</button>
           </form>
           <ul class="city-list"></ul>
         </aside>
