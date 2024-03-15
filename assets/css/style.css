@@ -79,6 +79,15 @@ aside h2 {
 #combobox {
   display: block;
 }
+.city-state-button {
+  width: 80%;
+  padding: 0rem;
+  margin: 1rem;
+  background-color: var(--blue-600);
+  border: none;
+  color: white;
+  text-align: left;
+}
 .btn {
   width: auto;
   font-size: 2rem;
@@ -98,7 +107,7 @@ aside h2 {
   padding: 2rem;
   background-color: var(--blue-050);
 }
-.current-weather h3 {
+#name-and-date {
   font-size: 3rem;
 }
 ul {

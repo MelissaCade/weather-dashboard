@@ -1,28 +1,103 @@
+//global constants:
 const searchButton = document.getElementById("search-button");
 const cityName = $('input[name="city"]');
-const stateCode = $("#combobox").val();
-//Pseudocoding
+const stateCode = document.getElementById("combobox");
+const citySearch = document.getElementById("cityNameInput");
+let nextCity = JSON.parse(localStorage.getItem(""));
+const cityStateButton = document.querySelectorAll(".city-state-button");
 
-//create event listener for "search" button
+//event listeners:
 searchButton.addEventListener("click", getLocationData);
 
+window.addEventListener("DOMContentLoaded", function () {
+  const cityList = document.getElementById("city-list");
+  cityList.value = "";
+  let userData = JSON.parse(localStorage.getItem("userData"));
+  if (userData) {
+    userData.forEach((userData) => {
+      const cityID = userData.City;
+      const stateID = userData.State;
+      const csButton = document.createElement("button");
+      csButton.classList.add("city-state-button");
+      csButton.textContent = `${cityID}, ${stateID}`;
+      cityList.appendChild(csButton);
+      csButton.addEventListener("click", () => {
+        console.log(`City: ${cityID}, State: ${stateID}`);
+      });
+    });
+  }
+});
+
+let today = new Date();
+let dd = String(today.getDate()).padStart(2, "0");
+let mm = String(today.getMonth() + 1).padStart(2, "0");
+let yyyy = today.getFullYear();
+today = mm + "/" + dd + "/" + yyyy;
+
 function collectInput() {
-  console.log("City Name:", cityName.val());
-  console.log("State Code:", stateCode);
+  const cityList = document.getElementById("city-list");
+  const cityID = cityName.val();
+  const stateID = combobox.value;
+  let existingData = localStorage.getItem("userData");
+  let userDataArray = existingData ? JSON.parse(existingData) : [];
+  let newUserData = {
+    City: cityID,
+    State: stateID,
+  };
+  userDataArray.push(newUserData);
+  let updatedData = JSON.stringify(userDataArray);
+  localStorage.setItem("userData", updatedData);
+  const csButton = document.createElement("button");
+  csButton.classList.add("city-state-button");
+  csButton.setAttribute("type", "button");
+  csButton.textContent = `${cityID}, ${stateID}`;
+  cityList.appendChild(csButton);
+  csButton.addEventListener("click", () => {
+    console.log(`City: ${cityID}, State: ${stateID}`);
+  });
+  combobox.selectedIndex = 0;
+  citySearch.value = "";
+  fetch(
+    `https://api.openweathermap.org/data/2.5/forecast?q=${cityID},${stateID},us&units=imperial&appid=48168ac0a5aca7ac5601cd3b630e2b83`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      const currentTemp = document.getElementById("current-temp");
+      const currentWind = document.getElementById("current-wind");
+      const currentHumidity = document.getElementById("current-humidity");
+      const currentCity = document.getElementById("name-and-date");
+      currentTemp.textContent = data.list[0].main.temp;
+      currentWind.textContent = data.list[0].wind.speed;
+      currentHumidity.textContent = data.list[0].main.humidity;
+      currentCity.textContent = `${cityID}, ${stateID} - ${today}`;
+      console.log(currentCity);
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
+    });
 }
 
+cityStateButton.forEach((button) => {
+  button.addEventListener("click", function (event) {
+    event.preventDefault();
+    const buttonValue = event.target.value;
+    console.log("button value clicked:", buttonValue);
+  });
+});
+
+// fetch(`api.openweathermap.org/data/2.5/forecast?q=${cityID},${stateID},us&units=imperial&appid=48168ac0a5aca7ac5601cd3b630e2b83;`)
+
 //dividing this up into multiple smaller functions which I will create next
-function getLocationData() {
+function getLocationData(event) {
+  event.preventDefault();
   //when "search" button is pressed, the city name input and state input.value are collected
-  collectInput();
   //the city name and state are saved as an array object in local storage
-  //   saveInput();
-  //   //the city name and state appear below the search bars (in the .city-list ul) as hyperlinks
-  //   //keep any searched city/state pairs as links in the sidebar under the search boxes - have the links run through the "get weather data" function again, in case the user clicks on the cities again another day - it should always pull the most recent data from the API
-  //   publishInput();
-  //   //use the city name and state input with the universal geocoder api to return the latitude and longitude
-  //   getLonLat();
-  //   //use the latitude and longitude with the weather api to get back weather data
+  //the city name and state appear below the search bars (in the .city-list ul) as hyperlinks
+  //keep any searched city/state pairs as links in the sidebar under the search boxes - have the links run through the "get weather data" function again, in case the user clicks on the cities again another day - it should always pull the most recent data from the API
+  collectInput();
+
+  //   //use the city name and state code with the weather api to get back weather data
   //   getWeatherData();
   //   //change the .current-weather h3 to a string concatenation (or template literal) to include the city name and date
 
@@ -33,3 +108,4 @@ function getLocationData() {
   //   //iterate through the t/w/h data to create five cards below the "current-weather" section (in the "forecast" section)
   //   createForecastCards();
 }
+//Geocoding API Key: rwEBHlIBYwqBb5/65QpejA==d7Hi5xB2HqdSfV1D
