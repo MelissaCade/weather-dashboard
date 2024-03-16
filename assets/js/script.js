@@ -5,6 +5,8 @@ const citySearch = document.getElementById("cityNameInput");
 let nextCity = JSON.parse(localStorage.getItem(""));
 const cityStateButton = document.getElementById("cs-button");
 const forecastArea = document.getElementById("forecast");
+const currentWeather = document.getElementById("current-weather");
+const currentIconBox = document.getElementById("current-icon");
 
 searchButton.addEventListener("click", getLocationData);
 
@@ -58,14 +60,28 @@ function collectInput() {
   )
     .then((response) => response.json())
     .then((data) => {
+      currentIconBox.innerHTML = "";
       const currentTemp = document.getElementById("current-temp");
       const currentWind = document.getElementById("current-wind");
       const currentHumidity = document.getElementById("current-humidity");
       const currentCity = document.getElementById("name-and-date");
-      currentTemp.textContent = data.days[0].temp;
-      currentWind.textContent = data.days[0].windspeed;
-      currentHumidity.textContent = data.days[0].humidity;
-      currentCity.textContent = `${cityID}, ${stateID} - ${today}`;
+      const currentDate = data.days[0].datetime;
+      const parsedCurrentDate = new Date(currentDate);
+      const currentMonth = parsedCurrentDate.getMonth() + 1;
+      const currentDay = parsedCurrentDate.getDate() + 1;
+      const currentYear = parsedCurrentDate.getFullYear();
+      const formattedCurrentDate = `${currentMonth}/${currentDay}/${currentYear}`;
+      const currentIcon = document.createElement("img");
+      currentTemp.textContent = `Temp: ${data.days[0].temp} °F`;
+      currentWind.textContent = `Wind: ${data.days[0].windspeed} m/s`;
+      currentHumidity.textContent = `Humidity ${data.days[0].humidity}%`;
+      currentCity.textContent = `${cityID}, ${stateID} - ${formattedCurrentDate}`;
+      currentIcon.setAttribute(
+        "src",
+        "./assets/images/weather-icons/" + data.days[0].icon + ".png"
+      );
+      currentIcon.classList.add("current-icon");
+      currentIconBox.appendChild(currentIcon);
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
@@ -125,14 +141,28 @@ document.addEventListener("click", function (e) {
     )
       .then((response) => response.json())
       .then((data) => {
+        currentIconBox.innerHTML = "";
         const currentTemp = document.getElementById("current-temp");
         const currentWind = document.getElementById("current-wind");
         const currentHumidity = document.getElementById("current-humidity");
         const currentCity = document.getElementById("name-and-date");
-        currentTemp.textContent = data.days[0].temp;
-        currentWind.textContent = data.days[0].windspeed;
-        currentHumidity.textContent = data.days[0].humidity;
-        currentCity.textContent = `${cs} - ${today}`;
+        const currentDate = data.days[0].datetime;
+        const parsedCurrentDate = new Date(currentDate);
+        const currentMonth = parsedCurrentDate.getMonth() + 1;
+        const currentDay = parsedCurrentDate.getDate() + 1;
+        const currentYear = parsedCurrentDate.getFullYear();
+        const formattedCurrentDate = `${currentMonth}/${currentDay}/${currentYear}`;
+        const currentIcon = document.createElement("img");
+        currentTemp.textContent = `Temp: ${data.days[0].temp} °F`;
+        currentWind.textContent = `Wind: ${data.days[0].windspeed} m/s`;
+        currentHumidity.textContent = `Humidity ${data.days[0].humidity}%`;
+        currentCity.textContent = `${cs} - ${formattedCurrentDate}`;
+        currentIcon.setAttribute(
+          "src",
+          "./assets/images/weather-icons/" + data.days[0].icon + ".png"
+        );
+        currentIcon.classList.add("current-icon");
+        currentIconBox.appendChild(currentIcon);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);

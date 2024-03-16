@@ -114,13 +114,14 @@
           <ul class="city-list" id="city-list"></ul>
         </aside>
         <div id="output" class="col-xxl-10 col-md-9 col-sm-12 pd-5">
-        <section class="row current-weather">
-          <span id="name-and-date"></span>
+        <section class="row current-weather" id="current-weather">
           <ul id="current">
-            <li>Temp:  <span id="current-temp"></span>&deg;F</li>
-            <li>Wind:  <span id="current-wind"></span>m/s</li>
-            <li>Humidity:  <span id="current-humidity"></span>&#37;</li>
+            <span id="name-and-date"></span>
+            <li><span id="current-temp"></span></li>
+            <li><span id="current-wind"></span></li>
+            <li><span id="current-humidity"></span></li>
           </ul>
+          <div class="current-icon" id="current-icon"></div>
         </section>
         <section class="row forecast" id="forecast">
         </section>
