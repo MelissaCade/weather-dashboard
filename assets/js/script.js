@@ -91,7 +91,7 @@ function collectInput() {
         day1Date.textContent = formattedDate1;
         day1Icon.setAttribute(
           "src",
-          "./assets/images/Icons/" + data.days[i].icon + ".png"
+          "./assets/images/weather-icons/" + data.days[i].icon + ".png"
         );
         day1Icon.classList.add("icons");
         day1Temp.textContent = `Temp: ${data.days[i].temp}°F`;
@@ -161,7 +161,7 @@ document.addEventListener("click", function (e) {
         day1Date.textContent = formattedDate1;
         day1Icon.setAttribute(
           "src",
-          "./assets/images/Icons/" + data.days[i].icon + ".png"
+          "./assets/images/weather-icons/" + data.days[i].icon + ".png"
         );
         day1Icon.classList.add("icons");
         day1Temp.textContent = `Temp: ${data.days[i].temp}°F`;
