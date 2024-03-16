@@ -1,12 +1,11 @@
-//global constants:
 const searchButton = document.getElementById("search-button");
 const cityName = $('input[name="city"]');
 const stateCode = document.getElementById("combobox");
 const citySearch = document.getElementById("cityNameInput");
 let nextCity = JSON.parse(localStorage.getItem(""));
 const cityStateButton = document.getElementById("cs-button");
+const forecastArea = document.getElementById("forecast");
 
-//event listeners:
 searchButton.addEventListener("click", getLocationData);
 
 window.addEventListener("DOMContentLoaded", function () {
@@ -55,7 +54,7 @@ function collectInput() {
   combobox.selectedIndex = 0;
   citySearch.value = "";
   fetch(
-    `https://api.openweathermap.org/data/2.5/forecast?q=${cityID},${stateID},us&units=imperial&appid=48168ac0a5aca7ac5601cd3b630e2b83`
+    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${cityID}%2C%20${stateID}/today?unitGroup=us&include=current&key=694QZXFHP5BSEXVD52Y94CZ5W&contentType=json`
   )
     .then((response) => response.json())
     .then((data) => {
@@ -63,13 +62,50 @@ function collectInput() {
       const currentWind = document.getElementById("current-wind");
       const currentHumidity = document.getElementById("current-humidity");
       const currentCity = document.getElementById("name-and-date");
-      currentTemp.textContent = data.list[0].main.temp;
-      currentWind.textContent = data.list[0].wind.speed;
-      currentHumidity.textContent = data.list[0].main.humidity;
+      currentTemp.textContent = data.days[0].temp;
+      currentWind.textContent = data.days[0].windspeed;
+      currentHumidity.textContent = data.days[0].humidity;
       currentCity.textContent = `${cityID}, ${stateID} - ${today}`;
     })
     .catch((error) => {
       console.error("Error fetching data:", error);
+    });
+  fetch(
+    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${cityID}%2C%20${stateID}/next7days?unitGroup=us&include=days&key=694QZXFHP5BSEXVD52Y94CZ5W&contentType=json`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      forecastArea.innerHTML = "";
+      for (let i = 1; i <= 5; i++) {
+        const inputDate1 = data.days[i].datetime;
+        const parsedDate1 = new Date(inputDate1);
+        const month1 = parsedDate1.getMonth() + 1;
+        const day1 = parsedDate1.getDate() + 1;
+        const year1 = parsedDate1.getFullYear();
+        const formattedDate1 = `${month1}/${day1}/${year1}`;
+        const day1Date = document.createElement("h4");
+        const day1Icon = document.createElement("img");
+        const day1Temp = document.createElement("h5");
+        const day1Wind = document.createElement("h5");
+        const day1Humidity = document.createElement("h5");
+        day1Date.textContent = formattedDate1;
+        day1Icon.setAttribute(
+          "src",
+          `./assets/images/icons/${data.days[i].icon}.png`
+        );
+        day1Icon.classList.add("icons");
+        day1Temp.textContent = `Temp: ${data.days[i].temp}°F`;
+        day1Wind.textContent = `Wind: ${data.days[i].windspeed}m/s`;
+        day1Humidity.textContent = `Humidity: ${data.days[i].humidity}%`;
+        const day1Card = document.createElement("div");
+        day1Card.classList.add("day-card");
+        day1Card.appendChild(day1Date);
+        day1Card.appendChild(day1Icon);
+        day1Card.appendChild(day1Temp);
+        day1Card.appendChild(day1Wind);
+        day1Card.appendChild(day1Humidity);
+        forecastArea.appendChild(day1Card);
+      }
     });
 }
 
@@ -77,31 +113,15 @@ function getLocationData(event) {
   event.preventDefault();
   collectInput();
 }
-//Geocoding API Key: rwEBHlIBYwqBb5/65QpejA==d7Hi5xB2HqdSfV1D
-
-//when "search" button is pressed, the city name input and state input.value are collected
-//the city name and state are saved as an array object in local storage
-//the city name and state appear below the search bars (in the .city-list ul) as hyperlinks
-//keep any searched city/state pairs as links in the sidebar under the search boxes - have the links run through the "get weather data" function again, in case the user clicks on the cities again another day - it should always pull the most recent data from the API
-
-//   //use the city name and state code with the weather api to get back weather data
-//   getWeatherData();
-//   //change the .current-weather h3 to a string concatenation (or template literal) to include the city name and date
-
-//   //pull from the weather api data to get current temp, wind, and humidity for the current city, and set the "current-temp", "current-wind", and "current-humidity" spans to those values.
-//   publishCurrentWeather();
-//   //pull from the weather api data to get five days of temp, wind, and humidity
-
-//   //iterate through the t/w/h data to create five cards below the "current-weather" section (in the "forecast" section)
-//   createForecastCards();
 
 document.addEventListener("click", function (e) {
   const target = e.target.closest("#cs-button");
   if (target) {
     let cs = target.textContent;
     let csNoSpaces = cs.replace(/ /g, "");
+    let csFormatted = csNoSpaces.replace(/,/g, "%2C%20");
     fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${csNoSpaces},us&units=imperial&appid=48168ac0a5aca7ac5601cd3b630e2b83`
+      `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${csFormatted}/today?unitGroup=us&include=current&key=694QZXFHP5BSEXVD52Y94CZ5W&contentType=json`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -109,13 +129,71 @@ document.addEventListener("click", function (e) {
         const currentWind = document.getElementById("current-wind");
         const currentHumidity = document.getElementById("current-humidity");
         const currentCity = document.getElementById("name-and-date");
-        currentTemp.textContent = data.list[0].main.temp;
-        currentWind.textContent = data.list[0].wind.speed;
-        currentHumidity.textContent = data.list[0].main.humidity;
+        currentTemp.textContent = data.days[0].temp;
+        currentWind.textContent = data.days[0].windspeed;
+        currentHumidity.textContent = data.days[0].humidity;
         currentCity.textContent = `${cs} - ${today}`;
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   }
+  let locationString = target.textContent;
+  const [city, state] = locationString.split(", ");
+  fetch(
+    `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${city}%2C%20${state}/next7days?unitGroup=us&include=days&key=694QZXFHP5BSEXVD52Y94CZ5W&contentType=json`
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      forecastArea.innerHTML = "";
+      for (let i = 1; i <= 5; i++) {
+        const inputDate1 = data.days[i].datetime;
+        const parsedDate1 = new Date(inputDate1);
+        const month1 = parsedDate1.getMonth() + 1;
+        const day1 = parsedDate1.getDate() + 1;
+        const year1 = parsedDate1.getFullYear();
+        const formattedDate1 = `${month1}/${day1}/${year1}`;
+        const day1Date = document.createElement("h4");
+        const day1Icon = document.createElement("img");
+        const day1Temp = document.createElement("h5");
+        const day1Wind = document.createElement("h5");
+        const day1Humidity = document.createElement("h5");
+        day1Date.textContent = formattedDate1;
+        day1Icon.setAttribute(
+          "src",
+          `./assets/images/icons/${data.days[i].icon}.png`
+        );
+        day1Icon.classList.add("icons");
+        day1Temp.textContent = `Temp: ${data.days[i].temp}°F`;
+        day1Wind.textContent = `Wind: ${data.days[i].windspeed}m/s`;
+        day1Humidity.textContent = `Humidity: ${data.days[i].humidity}%`;
+        const day1Card = document.createElement("div");
+        day1Card.classList.add("day-card");
+        day1Card.appendChild(day1Date);
+        day1Card.appendChild(day1Icon);
+        day1Card.appendChild(day1Temp);
+        day1Card.appendChild(day1Wind);
+        day1Card.appendChild(day1Humidity);
+        forecastArea.appendChild(day1Card);
+      }
+    });
 });
+//Pseudocoding: 
+
+//when "search" button is pressed, the city name input and state input.value are collected
+
+//the city name and state are saved as an array object in local storage
+
+//the city name and state appear below the search bars (in the .city-list ul) as hyperlinks
+
+//keep any searched city/state pairs as links in the sidebar under the search boxes - have the links run through the "get weather data" function again, in case the user clicks on the cities again another day - it should always pull the most recent data from the API
+
+//   //use the city name and state code with the weather api to get back weather data
+
+//   //change the .current-weather h3 to a string concatenation (or template literal) to include the city name and date
+
+//   //pull from the weather api data to get current temp, wind, and humidity for the current city, and set the "current-temp", "current-wind", and "current-humidity" spans to those values.
+
+//   //pull from the weather api data to get five days of temp, wind, and humidity
+
+//   //iterate through the t/w/h data to create five cards below the "current-weather" section (in the "forecast" section)

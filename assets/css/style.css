@@ -118,11 +118,35 @@ ul {
   padding-left: 0;
   font-size: 2rem;
 }
+.forecast {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.day-card {
+  background-color: var(--blue-050);
+  border: 5px var(--blue-900) solid;
+  padding: 2rem;
+  text-align: center;
+  width: 18%;
+  height: auto;
+  margin-top: 2rem;
+  min-width: 15rem;
+}
+.day-card h4 {
+  font-size: 2rem;
+}
+.day-card h5 {
+  font-size: 1.5rem;
+}
+.icons {
+  width: 75%;
+  margin: 1rem;
+}
 /*media queries*/
 @media (min-width: 0px) {
   header {
     background-image: url("../images/background-mobile.jpg");
-    min-width: 100vw;
   }
   header h1 {
     font-size: 3.5rem;
@@ -134,7 +158,7 @@ ul {
     min-height: 100vh;
   }
   .container {
-    min-width: 100vw;
+    min-width: 100%;
   }
 }
 @media (min-width: 576px) {
