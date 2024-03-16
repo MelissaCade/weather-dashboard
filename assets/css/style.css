@@ -106,9 +106,14 @@ aside h2 {
   border: 0.5rem var(--blue-900) solid;
   padding: 2rem;
   background-color: var(--blue-050);
+  display: flex;
+  justify-content: space-between;
+}
+#current {
+  width: auto;
 }
 #name-and-date {
-  font-size: 3rem;
+  font-size: 4rem;
 }
 ul {
   margin-bottom: 0;
@@ -138,6 +143,11 @@ ul {
 }
 .day-card h5 {
   font-size: 1.5rem;
+}
+.current-icon {
+  width: 14rem;
+  margin: 1rem;
+  align-self: center;
 }
 .icons {
   width: 75%;
