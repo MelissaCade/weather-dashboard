@@ -1,6 +1,6 @@
 # weather-tracker
 
-A simple weather tracking site that allows users to toggle between cities to see a 5-day forecast.
+A simple weather tracking site that allows users to toggle between cities to see the current weather in addition to the 5-day forecast.
 
 ## Description
 
@@ -20,7 +20,26 @@ N/A
 
 ## Usage
 
-A user can enter a city, select the state, and search. Upon searching, the site calls a weather API and returns the current weather, as well as the five day forecast for that city. Any cities searched will remain on the sidebar as a button to be toggled between and refreshed with the latest weather data.
+A user can enter a city, select the state using a dropdown feature (img below), and search on the dashboard which is presented on the left side of the page as shown below:
+
+![weather search bar screenshot](<assets/images/Weather Search Bar.png>)
+
+![State Dropdown Searchbar](<assets/images/State Dropdown Search.png>)
+
+Upon searching, the site calls a weather API and returns the current weather, as well as the five day forecast for the specific city that was searched for as seen below:
+
+![City Weather Display](<assets/images/City Weather Display.png>)
+
+Any cities searched will remain on the sidebar as a button to be toggled between and refreshed with the latest weather data added as shown in the image below:
+
+![Cities Weather Toggle](<assets/images/Cities Weather Data.png>)
+
+## Contributors
+
+https://github.com/MelissaCade
+https://github.com/PeteOottamakorn
+https://github.com/vicduar
+https://github.com/chrisjames1724
 
 ## Credits
 
