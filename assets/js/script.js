@@ -91,7 +91,7 @@ function collectInput() {
         day1Date.textContent = formattedDate1;
         day1Icon.setAttribute(
           "src",
-          `./assets/images/icons/${data.days[i].icon}.png`
+          "./assets/images/icons/" + data.days[i].icon + ".png"
         );
         day1Icon.classList.add("icons");
         day1Temp.textContent = `Temp: ${data.days[i].temp}°F`;
@@ -161,7 +161,7 @@ document.addEventListener("click", function (e) {
         day1Date.textContent = formattedDate1;
         day1Icon.setAttribute(
           "src",
-          `./assets/images/icons/${data.days[i].icon}.png`
+          "./assets/images/icons/" + data.days[i].icon + ".png"
         );
         day1Icon.classList.add("icons");
         day1Temp.textContent = `Temp: ${data.days[i].temp}°F`;
@@ -178,7 +178,7 @@ document.addEventListener("click", function (e) {
       }
     });
 });
-//Pseudocoding: 
+//Pseudocoding:
 
 //when "search" button is pressed, the city name input and state input.value are collected
 
