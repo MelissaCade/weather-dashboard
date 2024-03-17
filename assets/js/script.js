@@ -1,3 +1,4 @@
+//VARIABLE DECLARATIONS to reference the DOM
 const searchButton = document.getElementById("search-button");
 const cityName = $('input[name="city"]');
 const stateCode = document.getElementById("combobox");
@@ -8,8 +9,10 @@ const forecastArea = document.getElementById("forecast");
 const currentWeather = document.getElementById("current-weather");
 const currentIconBox = document.getElementById("current-icon");
 
+//Listening for a click on the search button to run the function to get location data
 searchButton.addEventListener("click", getLocationData);
 
+//Event listener to load local storage to preserve the search history and render it to the page
 window.addEventListener("DOMContentLoaded", function () {
   const cityList = document.getElementById("city-list");
   cityList.value = "";
@@ -28,12 +31,14 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+//Variable declarations to set a date string for today's date to display on the webpage
 let today = new Date();
 let dd = String(today.getDate()).padStart(2, "0");
 let mm = String(today.getMonth() + 1).padStart(2, "0");
 let yyyy = today.getFullYear();
 today = mm + "/" + dd + "/" + yyyy;
 
+//Function to get information from user input and pushes to local storage
 function collectInput() {
   const cityList = document.getElementById("city-list");
   const cityID = cityName.val();
@@ -55,6 +60,8 @@ function collectInput() {
   cityList.appendChild(csButton);
   combobox.selectedIndex = 0;
   citySearch.value = "";
+
+  //Pull weather data from API using city and state chosen by the user for today's date
   fetch(
     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${cityID}%2C%20${stateID}/today?unitGroup=us&include=current&key=694QZXFHP5BSEXVD52Y94CZ5W&contentType=json`
   )
@@ -86,6 +93,8 @@ function collectInput() {
     .catch((error) => {
       console.error("Error fetching data:", error);
     });
+
+  //Pull weather data from API for next five days and displays it on the webpage
   fetch(
     `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${cityID}%2C%20${stateID}/next7days?unitGroup=us&include=days&key=694QZXFHP5BSEXVD52Y94CZ5W&contentType=json`
   )
@@ -125,11 +134,13 @@ function collectInput() {
     });
 }
 
+//Function attached to Search button's event listener that will run the collectInput function
 function getLocationData(event) {
   event.preventDefault();
   collectInput();
 }
 
+//Event listener that will repopulate the webpage body with weather data for a previous city search when the city is clicked on
 document.addEventListener("click", function (e) {
   const target = e.target.closest("#cs-button");
   if (target) {
