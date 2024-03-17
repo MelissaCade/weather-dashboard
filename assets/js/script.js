@@ -31,7 +31,7 @@ window.addEventListener("DOMContentLoaded", function () {
   }
 });
 
-//Variable declarations to set a date string for today's date
+//Variable declarations to set a date string for today's date to display on the webpage
 let today = new Date();
 let dd = String(today.getDate()).padStart(2, "0");
 let mm = String(today.getMonth() + 1).padStart(2, "0");
