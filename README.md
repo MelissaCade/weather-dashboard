@@ -8,7 +8,7 @@ A weather dashboard that allows users to toggle between multiple cities of inter
 
 ## Link to Live Page
 
-https://melissacade.github.io/weather-tracker/
+https://melissacade.github.io/weather-dashboard/
 
 ## Screenshot of Site
 
